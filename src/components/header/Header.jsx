@@ -11,7 +11,7 @@ import { MdOutlineLocalMovies } from "react-icons/md";
 import {useNavigate} from "react-router-dom"
 import "./header.scss"
 import { Link } from 'react-router-dom';
-import { closeWishlist, openWishList } from '../../redux/slices/wishlist';
+import { closeWishlist, openWishList,removeMovie, removeTv } from '../../redux/slices/wishlist';
 import { IMAGE_LINK } from '../../utils/varibles';
 const Header = () => {
   const navigation = useNavigate();
@@ -53,28 +53,36 @@ const Header = () => {
       <SlBag className='wishlist-logo' onClick={()=>{
                dispatch(openWishList());
               //  setWishListIsOpen(selector)
-
-      }}/>
+          
+      }}/>{selectorlistMovie.length + selectorlistTv.length}
       {selector && <div className='slider2'>
       <IoMdClose  className='close' onClick={()=>{
         dispatch(closeWishlist());
       }}/>
        <ul>
-         <li>
+       {
+              selectorlistMovie && <h1>Movie List</h1>
+            }
             { selectorlistMovie  &&
               selectorlistMovie?.map((e)=>{
-               return <Link to={"details/movie/"+e.id}><img src={IMAGE_LINK+e.backdrop_path} className='imgx' />{e.title}</Link>
+               return <li>
+                <button onClick={()=>{dispatch(removeMovie(e.id))}}>X</button>
+                <Link to={"details/movie/"+e.id} key={e.id}><img src={IMAGE_LINK+e.backdrop_path} className='imgx' />{e.title}</Link>
+                </li>
               })
             }
 
-            </li>
-            <li>
+            {
+              selectorlistTv && <h1>TV List</h1>
+            }
             { selectorlistTv && 
               selectorlistTv?.map((e)=>{
-               return <Link to={"details/tv/"+e.id}><img src={IMAGE_LINK+e.backdrop_path} className='imgx' />  {e.original_name}</Link>
+                return <li>
+               <button onClick={()=>dispatch(removeTv(e.id))}>X</button>
+                 <Link to={"details/tv/"+e.id}><img src={IMAGE_LINK+e.backdrop_path} className='imgx' />  {e.original_name}</Link>
+               </li>
               })
             }
-            </li>
            
            </ul>
       </div>}

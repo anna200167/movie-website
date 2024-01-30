@@ -22,7 +22,7 @@ const Movie = () => {
         <div className='container'>
           {movie  &&
             movie?.map(m=>{
-             return <Card datas={m}/>
+             return <> <Card datas={m} /></>
             })
           }
             

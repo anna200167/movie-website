@@ -4,13 +4,22 @@ import 'react-circular-progressbar/dist/styles.css';
 import { API ,IMAGE_LINK,NO_IMAGE_LINK} from "../../utils/varibles";
 import { useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom'
+import {useSelector,useDispatch} from "react-redux"
 import "./card.scss"
+import { AiFillHeart } from 'react-icons/ai';
+import { CiHeart } from 'react-icons/ci';
+import { addTv, removeTv } from '../../redux/slices/wishlist';
 const TvCard = ({datas}) => {
   const navigate = useNavigate();
   // console.log(props)
   // console.log(datas)
+  const selectorlistTv=  useSelector(state=>state?.wishList?.tv)
+
+  const isAvilable =  selectorlistTv?.findIndex(i=> datas.id == i.id)
+  const dispatch = useDispatch();
+
   return (
-    <Link className='card' to={"/details/tv/"+datas.id}>
+    <div className='card'>
 
       <img src={datas.backdrop_path? IMAGE_LINK+datas.backdrop_path : NO_IMAGE_LINK}/>
       <div className='rating'>
@@ -26,10 +35,17 @@ const TvCard = ({datas}) => {
         </div>
       </div>
       <div className='details'>
+        <Link to={"/details/tv/"+datas.id}>
         <p className='card-title'>{datas?.name}</p>
-        <p>{datas?.first_air_date}</p>
-      </div>
-    </Link>
+        </Link>
+        {
+         isAvilable >= 0 ? 
+          <AiFillHeart color='red' onClick={()=>dispatch(removeTv(datas?.id))} /> 
+          :
+           <CiHeart color='red' onClick={()=>dispatch(addTv(datas))}/>
+        }
+    </div>
+    </div>
   )
 }
 

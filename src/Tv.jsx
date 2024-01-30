@@ -6,7 +6,8 @@ const Tv = () => {
     const [movie, setMovie] = useState([]);
     const [page, setPage] = useState(1);
 
-  
+    let btns =5;
+    let responsePages = 20;
 
     useEffect(() => {
         getmovies()
@@ -33,20 +34,78 @@ const Tv = () => {
             })
           }
             </div>
-            <div className='text-center  p-5'>
-                <button className='btn btn-primary m-5' disabled={page === 1 ? true : false}
-                    onClick={() => {
-                        setPage((page) => { return page = page - 1; })
-                    }}
-                > PREVIOUS</button>
-                <button className='btn btn-primary m-5'
-                    onClick={() => {
-                        setPage((page) => { return page = page + 1; })
-                    }}>NEXT</button>
-                <p>Page: {page}</p>
-            </div>
+            <div className="d-flex align-center justify-center text-center">
+                
+                {
+                (
+                    ()=>
+                    {
+                            const bts=[]; 
+                            if(responsePages <= btns){
+                                (()=>{
+                                    for(let i=1;i<=responsePages;i++){
+                                        bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(i)}} key={i}>{i}</button>);
+                                    }
+                                    console.log("1")
+                                    console.log(bts)
+                                    return
+                                }
+                                )()
+                            }
+                            else{
+                            
+                            if(page < btns){
+                                (()=>{
+                                    for(let i=1;i<=btns;i++){
+                                        bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(i)}} key={i}>{i}</button>);
+                                    }
+            
+                                    bts.push(<button className="btn btn-primary m-2">{"..."}</button>)
+                                    bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(responsePages)}} key={responsePages}>{responsePages}</button>)
+            
+                                    console.log("2")
+                                    console.log(bts)
+                                    return
+                                }
+                                )()
+                            }else if(page > (responsePages-btns+1)){
+            
+                                (()=>{
+                                    bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(1)}} key={1}>{1}</button>)
+                                    bts.push(<button className="btn btn-primary m-2" >{"..."}</button>)
+                                    for(let i=(responsePages-btns+1);i<=responsePages;i++){
+                                        bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(i)}} key={i}>{i}</button>);
+                                    }
+                                    console.log("3")
+                                    console.log(bts)
+                                    return
+                                }
+                                )()
+                            }else{
+                                (()=>{
+                                    bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(1)}} key={1}>{1}</button>)
+                                    bts.push(<button className="btn btn-primary m-2" >{"..."}</button>)
+                                    for(let i=page;i<=(page+btns-1);i++){
+                                        bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(i)}} key={i}>{i}</button>);
+                                    }
+                                    bts.push(<button className="btn btn-primary m-2" >{"..."}</button>)
+                                    bts.push(<button className="btn btn-primary m-2" onClick={()=>{setPage(responsePages)}} key={1}>{responsePages}</button>)
+                                    console.log("4")
+                                    console.log(bts)
+                                    return
+                                }
+                                )()
+                            }
+                            }
+                 
+                            return bts;
+                    }
+            
+                        )()
+                    }
+                            </div>
             {/* {JSON.stringify(movies)} */}
-
+                    
         </div>
     )
 }

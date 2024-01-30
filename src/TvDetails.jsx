@@ -2,10 +2,10 @@ import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { CircularProgressbar,buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { FaPlus } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import "./details.scss"
-import {useDispatch} from "react-redux"
-import { addTv } from './redux/slices/wishlist';
+import {useDispatch,useSelector} from "react-redux"
+import { addTv, removeTv } from './redux/slices/wishlist';
 const TvDetails = () => {
   const [movie,setMovie] = useState();
   const dispatch = useDispatch();
@@ -13,7 +13,12 @@ const TvDetails = () => {
   const params = useParams();
   useEffect(() => {
       getByMovieId()
+  window.scrollTo(0, 0);
+
   },[])
+  const selectorlistTv=  useSelector(state=>state?.wishList?.tv)
+
+  const isAvilable =  selectorlistTv?.findIndex(i=> movie?.id == i.id)
  const getByMovieId = async () => {
       const response = await fetch(
         `https://api.themoviedb.org/3/tv/${params.id}?api_key=c1a7ae3e52a9a0675b51122ca7f458b0&`
@@ -61,10 +66,19 @@ let imgString = "https://image.tmdb.org/t/p/w220_and_h330_face/"
               <p>Language  : {movie?.original_language}  </p>
             </div>
           </div>
-        <button className='wishlist-btn' onClick={()=>{
-          alert("TV")
-          dispatch(addTv(movie))
-        }}><FaPlus/>WishList</button>
+
+          {
+         isAvilable >= 0 ? 
+          <button className='wishlist-btn' onClick={()=>{
+            dispatch(removeTv(movie.id));
+            }}><FaMinus/>UnWish</button>
+          :
+          <button className='wishlist-btn' onClick={()=>{
+            // alert("TV")
+            dispatch(addTv(movie))
+          }}><FaPlus/>WishList</button>
+        }
+        
         </div>
 
     </div>

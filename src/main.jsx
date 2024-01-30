@@ -9,6 +9,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Header from './components/header/Header.jsx'
 import TvDetails from './TvDetails.jsx'
 import Tv from './Tv.jsx'
+import Pagination from "./Pagination.jsx";
 import store from './redux/store.js';
 import {Provider} from "react-redux"
 import Movie from './Movies.jsx'
@@ -25,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path={"/wishlist"} element={<Wishlist/>} />
             <Route path={"/movies"} element={<Movie/>} />
             <Route path={"/tv"} element={<Tv/>} />
-
+            <Route path={"/pagination"} element={<Pagination/>} />
 
             {/* <Route path={"/filter"} element={Filter} /> */}
         </Routes>
